@@ -1,0 +1,26 @@
+{
+  "name": "angular-d3-tree-multiparent",
+  "version": "1.0.0",
+  "description": "Directive to generate multi-parent d3 graph",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CA-Labs/angular-d3-tree-multiparent.git"
+  },
+  "author": "Jacek Dominiak <domja01@ca.com>",
+  "license": "Apache",
+  "bugs": {
+    "url": "https://github.com/CA-Labs/angular-d3-tree-multiparent/issues"
+  },
+  "homepage": "https://github.com/CA-Labs/angular-d3-tree-multiparent",
+  "dependencies": {
+    "gulp": "^3.8.11",
+    "gulp-babel": "^4.0.0",
+    "gulp-ng-annotate": "^0.5.2",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.1.0"
+  }
+}
