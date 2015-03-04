@@ -7,21 +7,9 @@
  * @created: 04/03/15
  */
 
-class AngularD3multiParentDirective {
+function AngularD3multiParentDirective() {
 
-    constructor($interval) {
-
-        this.restrict = 'E';
-        this.scope = {
-            data: '='
-        };
-    }
-
-    compile() {
-        return this.link;
-    }
-
-    link(scope, element, attr) {
+    function link (scope, element, attr) {
 
         // specify graph defaults with fallbacks
         var graph = {
@@ -38,7 +26,7 @@ class AngularD3multiParentDirective {
         };
 
         // draw the svg container for the full graph
-        var svg = d3.select(element).append('svg:svg')
+        var svg = d3.select(element[0]).append('svg:svg')
             .attr('width', graph.width)
             .attr('height', graph.height)
             .append('svg:g')
@@ -78,22 +66,23 @@ class AngularD3multiParentDirective {
             .enter()
             .append('svg:path')
             .attr('class', (d) => !!d.source ? d.source.id : 'root')
-            .classed('link', ture)
+            .classed('link', true)
             .attr('d', diagonal);
 
         // draw nodes
         var node = svg.selectAll('g.node')
             .data(nodes)
             .enter()
+            .append('svg:g')
             .attr('transform', (d) => 'translate(' + d.y +', '+ d.x +')')
             .on('mouseover', function (d) {
-                d3.selectAll('.' + d.id)
+                d3.selectAll(`.${d.id}`)
                     .classed('hover', true)
                     .moveToFront();
             })
             .on('mouseout', function (d) {
-                d3.selectAll('.' + d.id)
-                    .classed('hover', true);
+                d3.selectAll(`.${d.id}`)
+                    .classed('hover', false);
             });
 
         // append some node visualization
@@ -106,6 +95,14 @@ class AngularD3multiParentDirective {
             .classed('text', true)
             .attr('text-anchor', (d) => d.children ? 'end' : 'start')
             .text((d) => d.name)
+    }
+
+    return {
+        restrict: 'E',
+        scope: {
+            data: '='
+        },
+        link: link
     }
 }
 
