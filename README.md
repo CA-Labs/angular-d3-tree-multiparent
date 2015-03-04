@@ -1,11 +1,12 @@
 # angular-d3-tree-multiparent
 
-Angular 1.x directive to generate multi-parent d3 graph without the depth of root node `depth: 0`. The graph will remove all duplicated children and replot the connections if necessary. 
+Angular 1.x directive to generate multi-parent d3 graph without the depth of root node `depth: 0`. The graph will remove all duplicated children and replot the connections if necessary.
 
 [DEMO](http://rawgit.com/CA-Labs/angular-d3-tree-multiparent/master/demo/index.html)
 
 ## Installation
 * clone the repository to your project:
+
 `git clone git@github.com:CA-Labs/angular-d3-tree-multiparent.git`
 * add the reference to the module to your html and your angular module
 
