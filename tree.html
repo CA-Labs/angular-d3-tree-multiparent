@@ -25,6 +25,31 @@
             width: 100%;
             height: 100%;
         }
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            max-width: 160px;
+            padding: 7px 10px;
+            font: 12px sans-serif;
+            color: white;
+            background: #111;
+            border: 0px;
+            border-radius: 2px;
+            pointer-events: none;
+            margin-top: 2px;
+        }
+        div.tooltip:before {
+            content: '';
+            position: absolute;
+            top: 0%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            width: 0; height: 0;
+            border-bottom: 8px solid #111;
+            border-right: 8px solid transparent;
+            border-left: 8px solid transparent;
+        }
     </style>
 </head>
 <body>
@@ -41,8 +66,8 @@
                 name: "ISO",
                 id: "cert-iso",
                 children: [
-                    {id:"CO-01",name:"co-AuditPlanning"},
-                    {id:"CO-02",name:"co-IndependentAudits"},
+                    {id:"CO-01",name:"co-AuditPlanning", description: 'yes yes'},
+                    {id:"CO-02",name:"co-IndependentAudits", description: 'no no'},
                     {id:"CO-03",name:"co-ThirdPartyAudits"},
                     {id:"CO-04",name:"co-Contact"},
                     {id:"CO-05",name:"co-InformationSystemRegulatoryMapping"},
@@ -597,6 +622,11 @@
         nodes[i].x = interval / 2 + (interval * indexOfCurrent);
     });
 
+    //tooltip
+    var tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
     var links = tree.links(nodes);
 
     _.each(links, function (o, i) {
@@ -618,21 +648,36 @@
             .attr("transform", function (d) {
                 return "translate(" + d.y + "," + d.x + ")";
             })
-            .on('mouseover', function (d) {
+            .on('mouseup', function (d) {
+                // remove all the colour paths
+                d3.selectAll('path.link').classed('hover', false);
+                // draw new colour paths
                 d3.selectAll("." + d.id)
                         .classed("hover", true)
                         .moveToFront();
             })
+            .on('mouseover', function (d) {
+                if (!!d.description) {
+                    tooltip.transition()
+                            .duration(200)
+                            .style('opacity',.9);
+
+                    tooltip.html(d.description)
+                            .style('left', (d3.event.pageX) + 'px')
+                            .style('top', ((d3.event.pageY) + 8) + "px")
+                }
+            })
             .on('mouseout', function (d) {
-                d3.selectAll('.' + d.id)
-                        .classed('hover', false);
+                tooltip.transition()
+                        .duration(500)
+                        .style('opacity', 0);
             });
 
     var colors = d3.scale.category20();
     node.append("svg:circle")
             .attr("r", 3)
             .attr('fill', function (d, i) {
-                return colors(i);
+                return colors(d.id.split('-')[0]);
             });
 
     node.append("svg:text")

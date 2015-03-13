@@ -14,10 +14,12 @@ function MainController() {
             {
                 name: 'A',
                 id: 'A',
+                description: 'This is a tooltip with a long multi line text in it',
                 children: [
                     {
                         name: 'AA',
-                        id: 'AA'
+                        id: 'AA',
+                        description: 'This is a tooltip'
                     },
                     {
                         name: 'BB',

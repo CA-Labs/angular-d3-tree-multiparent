@@ -38,6 +38,9 @@ function AngularD3multiParentDirective() {
         // define the tree and leave some space for the text
         var tree = d3.layout.tree().size([graph.height, graph.width / 2]);
 
+        //tooltip
+        var tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+
         // calculate nodes
         var nodes = tree.nodes(scope.data);
 
@@ -68,10 +71,21 @@ function AngularD3multiParentDirective() {
         // draw nodes
         var node = svg.selectAll("g.node").data(nodes).enter().append("svg:g").attr("transform", function (d) {
             return "translate(" + d.y + ", " + d.x + ")";
-        }).on("mouseover", function (d) {
+        }).on("mouseup", function (d) {
+            // clean up hovers
+            d3.selectAll("path.link").classed("hover", false);
+
+            // mark paths to hover
             d3.selectAll("." + d.id).classed("hover", true).moveToFront();
+        }).on("mouseover", function (d) {
+            // if description exists ... match it to tooltip
+            if (!!d.description) {
+                tooltip.transition().duration(200).style("opacity", 0.9);
+
+                tooltip.html(d.description).style("left", d3.event.pageX - 8 + "px").style("top", d3.event.pageY + 8 + "px");
+            }
         }).on("mouseout", function (d) {
-            d3.selectAll("." + d.id).classed("hover", false);
+            tooltip.transition().duration(500).style("opacity", 0);
         });
 
         // append some node visualization
