@@ -26,6 +26,38 @@ Angular 1.x directive to generate multi-parent d3 graph without the depth of roo
 |width|attr|width of the graph|Y|1000|
 |height|attr|height of the graph|Y|900|
 
+### Adding tooltip to the nodes
+adding `description` attribute on the node will enable tooltip on the element. Tooltip appearance is controlled by CSS.
+
+Example of the tooltip CSS implementation:
+```css
+       div.tooltip {
+            position: absolute;
+            text-align: center;
+            max-width: 160px;
+            padding: 7px 10px;
+            font: 12px sans-serif;
+            color: white;
+            background: #111;
+            border: 0px;
+            border-radius: 2px;
+            pointer-events: none;
+            margin-top: 2px;
+        }
+       div.tooltip:before {
+           content: '';
+           position: absolute;
+           top: 0%;
+           left: 50%;
+           margin-left: -8px;
+           margin-top: -8px;
+           width: 0; height: 0;
+           border-bottom: 8px solid #111;
+           border-right: 8px solid transparent;
+           border-left: 8px solid transparent;
+       }
+```
+
 ## License
 Copyright 2014-2015 CA Technologies - CA Labs EMEA
 
