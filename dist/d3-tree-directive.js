@@ -77,6 +77,18 @@ function AngularD3multiParentDirective() {
 
             // mark paths to hover
             d3.selectAll("." + d.id).classed("hover", true).moveToFront();
+
+            _.pluck(d.children, "id").forEach(function (id) {
+                d3.selectAll("." + id).classed("hover", true).moveToFront();
+            });
+
+            if (d.children) {
+                d._children = d.children;
+                d.children = null;
+            } else {
+                d.children = d._children;
+                d._children = null;
+            }
         }).on("mouseover", function (d) {
             // if description exists ... match it to tooltip
             if (!!d.description) {
@@ -89,7 +101,9 @@ function AngularD3multiParentDirective() {
         });
 
         // append some node visualization
-        node.append("svg:circle").attr("r", 3);
+        node.append("svg:circle").attr("r", 4).attr("fill", function (d) {
+            return colors(d.id.split("-")[0]);
+        }).attr("stroke", "#333333").attr("stroke-width", "1.5px");
 
         // add text to represent the meaning of the node
         node.append("svg:text").attr("dx", function (d) {
