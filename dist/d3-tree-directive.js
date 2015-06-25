@@ -19,9 +19,6 @@ function AngularD3multiParentDirective() {
             height: attr.height || 900
         };
 
-        // Colouring function
-        var colors = d3.scale.category20();
-
         // extend d3 with moveToFront function
         // this function redraws the elements in order to put them always in the front
         d3.selection.prototype.moveToFront = function () {
