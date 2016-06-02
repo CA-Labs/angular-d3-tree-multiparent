@@ -31,7 +31,7 @@ function AngularD3multiParentDirective() {
         };
 
         // draw the svg container for the full graph
-        var svg = d3.select(element[0]).append("svg:svg").attr("width", graph.width).attr("height", graph.height).append("svg:g").attr("transform", "translate(-" + graph.width * 0.2 + ", 0)");
+        var svg = d3.select(element[0]).append("svg:svg").attr("width", graph.width).attr("height", graph.height).append("svg:g").attr("transform", "translate(-" + graph.width * 0.05 + ", 0)");
 
         // specify the diagonal path link draw function
         var diagonal = d3.svg.diagonal().projection(function (d) {
@@ -52,7 +52,7 @@ function AngularD3multiParentDirective() {
 
         // recalculate the x poition of each of then node after the removal
         _.each(nodes, function (o, i) {
-            var itemsOfTheSameDepth = _.where(nodes, { depth: o.depth });
+            var itemsOfTheSameDepth = _.filter(nodes, { depth: o.depth });
             var indexOfTheCurrentItem = _.indexOf(itemsOfTheSameDepth, o);
             var intervalPerDepth = graph.height / itemsOfTheSameDepth.length;
             nodes[i].x = intervalPerDepth / 2 + intervalPerDepth * indexOfTheCurrentItem;
